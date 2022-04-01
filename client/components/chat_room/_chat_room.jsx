@@ -4,6 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { Input } from '../common/input';
 import { Button } from '../common/button';
 import { useMessages } from '../../utils/use_messages';
+import { Message } from './message';
 
 export const ChatRoom = () => {
   const [chatRoom, setChatRoom] = useState(null);
@@ -12,21 +13,22 @@ export const ChatRoom = () => {
   const [user, setUser] = useState(null);
   const api = useContext(ApiContext);
   const { id } = useParams();
-  console.log(id);
   const [messages, sendMessage] = useMessages(chatRoom);
-
   useEffect(async () => {
-    const { user } = await api.get('/users/me');
-    setUser(user);
+    setLoading(true);
+    if (!user) {
+      const { user } = await api.get('/users/me');
+      setUser(user);
+    }
     const { chatRoom } = await api.get(`/chat_rooms/${id}`);
     setChatRoom(chatRoom);
     setLoading(false);
-  }, []);
+  }, [id]);
 
   if (loading) return 'Loading...';
   console.log(user)
   return (
-    <div>
+    <div className="chat-container">
       <div>
         {messages.map((message) => {
           if (message.userName == (`${user.firstName} ${user.lastName}`)){

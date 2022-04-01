@@ -5,11 +5,11 @@ import { Input } from '../common/input'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
+
 export const Home = () => {
   const api = useContext(ApiContext);
   const navigate = useNavigate();
 
-  const [name, setName] = useState('');
   const [chatRooms, setChatRooms] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -17,6 +17,7 @@ export const Home = () => {
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
 
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -26,8 +27,6 @@ export const Home = () => {
     setUser(res.user);
     setLoading(false);
     
-  }, []);
-
   useEffect(()=>{
     const watch = navigator.geolocation.watchPosition((location)=>{
       setLat(location.coords.latitude);
@@ -43,6 +42,9 @@ export const Home = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  
+  
+
 
   const createRoom = async () => {
     if (name == ''){return}
@@ -55,6 +57,7 @@ export const Home = () => {
     setChatRooms([...chatRooms, chatRoom]);
     setName('');
     navigate(`/chat_rooms/${chatRoom.id}`)
+
   };
 
 
@@ -115,7 +118,6 @@ export const Home = () => {
       <Button type="button" onClick={logout}>
         Logout
       </Button>
-      
     </div>
   );
 };
