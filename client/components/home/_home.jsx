@@ -98,8 +98,8 @@ export const Home = () => {
   let inRange = chatRooms.map((chatRoom) =>{
     if (roomInRange(chatRoom)){
       return (
-      <div className="border-2 rounded-lg p-1 bg-indigo-600 text-black" key={chatRoom.id}>
-        <Link to={`/chat_rooms/${chatRoom.id}`}>{chatRoom.name}</Link>
+      <div className="m-4" key={chatRoom.id}>
+        <Link to={`/chat_rooms/${chatRoom.id}`} className="border-2 rounded-lg p-1 bg-indigo-600 px-1 text-black">{chatRoom.name}</Link>
       </div>
       )
     }
